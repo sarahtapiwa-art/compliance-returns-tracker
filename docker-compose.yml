@@ -1,0 +1,13 @@
+services:
+  returns_tracking_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: returns-tracking-system:latest
+    container_name: returns-tracking-system
+    ports:
+      - "18000:18000"
+    env_file:
+      - ../.env.properties
+    environment:
+      SPRING_PROFILES_ACTIVE: dev

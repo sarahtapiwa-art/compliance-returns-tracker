@@ -1,0 +1,48 @@
+2025-12-12 16:05:24.704 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.boot.context.config.InvalidConfigDataPropertyException: Property 'spring.profiles.active' imported from location 'class path resource [application-prod.yml]' is invalid in a profile specific resource [origin: class path resource [application-prod.yml] - 3:13]
+	at org.springframework.boot.context.config.InvalidConfigDataPropertyException.lambda$throwIfPropertyFound$1(InvalidConfigDataPropertyException.java:121)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
+	at org.springframework.boot.context.config.InvalidConfigDataPropertyException.throwIfPropertyFound(InvalidConfigDataPropertyException.java:118)
+	at org.springframework.boot.context.config.ConfigDataEnvironment.checkForInvalidProperties(ConfigDataEnvironment.java:367)
+	at org.springframework.boot.context.config.ConfigDataEnvironment.applyToEnvironment(ConfigDataEnvironment.java:331)
+	at org.springframework.boot.context.config.ConfigDataEnvironment.processAndApply(ConfigDataEnvironment.java:238)
+	at org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor.postProcessEnvironment(ConfigDataEnvironmentPostProcessor.java:96)
+	at org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor.postProcessEnvironment(ConfigDataEnvironmentPostProcessor.java:89)
+	at org.springframework.boot.env.EnvironmentPostProcessorApplicationListener.onApplicationEnvironmentPreparedEvent(EnvironmentPostProcessorApplicationListener.java:109)
+	at org.springframework.boot.env.EnvironmentPostProcessorApplicationListener.onApplicationEvent(EnvironmentPostProcessorApplicationListener.java:94)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:138)
+	at org.springframework.boot.context.event.EventPublishingRunListener.multicastInitialEvent(EventPublishingRunListener.java:136)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:81)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:64)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:118)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:112)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:63)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:370)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at zw.co.nbs.returnstrackingsystem.ReturnsTrackingSystemApplication.main(ReturnsTrackingSystemApplication.java:16)
+2025-12-12 16:06:35.206 [main] INFO  z.c.n.r.ReturnsTrackingSystemApplication - Starting ReturnsTrackingSystemApplication using Java 17.0.15 with PID 11956 (C:\Users\romeo\Documents\nbs\compliance-returns-tracker\target\classes started by romeo in C:\Users\romeo\Documents\nbs\compliance-returns-tracker)
+2025-12-12 16:06:35.215 [main] INFO  z.c.n.r.ReturnsTrackingSystemApplication - The following 1 profile is active: "prod"
+2025-12-12 16:06:42.569 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-18000"]
+2025-12-12 16:06:42.585 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-12 16:06:42.586 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-12-12 16:06:42.765 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-12 16:06:45.020 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-12 16:06:47.941 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4d93e5bf
+2025-12-12 16:06:47.944 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-12 16:06:48.276 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-12 16:07:02.192 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-12-12 16:07:03.261 [main] INFO  z.c.n.r.s.impl.DocStoreServiceImpl - Document storage initialized with base path: /data/apps/compliance-returns/uploads/
+2025-12-12 16:07:03.261 [main] INFO  z.c.n.r.s.impl.DocStoreServiceImpl - Max file size: 10485760 bytes (10 MB)
+2025-12-12 16:07:03.261 [main] INFO  z.c.n.r.s.impl.DocStoreServiceImpl - Allowed file types: [application/pdf, image/jpeg, image/png, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.oasis.opendocument.spreadsheet, application/vnd.oasis.opendocument.text, text/csv, text/plain]
+2025-12-12 16:07:03.811 [main] INFO  z.c.n.r.config.GraphConfig - Creating app-only Graph client for background operations
+2025-12-12 16:07:05.778 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-12 16:07:09.746 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["https-jsse-nio-18000"]
+2025-12-12 16:07:09.937 [main] INFO  o.a.t.u.net.NioEndpoint.certificate - Connector [https-jsse-nio-18000], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [C:\Users\romeo\.keystore] using alias [server] with trust store [null]
+2025-12-12 16:07:10.025 [main] INFO  z.c.n.r.ReturnsTrackingSystemApplication - Started ReturnsTrackingSystemApplication in 35.681 seconds (process running for 37.445)

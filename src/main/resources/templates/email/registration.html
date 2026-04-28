@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333333;
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 25px;
+            border: 2px solid #27ae60;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #27ae60;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #27ae60;
+            display: flex;
+            align-items: center;
+        }
+        .header-icon {
+            margin-right: 10px;
+            font-size: 24px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .content {
+            font-size: 16px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #e8f6ef;
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+        }
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .credentials-box {
+            background-color: #f8f9fa;
+            border: 2px solid #bdc3c7;
+            color: #2c3e50;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .security-alert {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .footer {
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+        .welcome-note {
+            color: #27ae60;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .credentials-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-right: 10px;
+        }
+    </style>
+    <title>Account Created - Compliance Return Diary</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <span class="header-icon">&#10004;</span>
+        Account Created Successfully
+        <span class="status-badge">ACTIVE</span>
+    </div>
+    <div class="content">
+        Hi <span class="highlight" th:text="${username}">user</span>, your Compliance Return Diary account has been created.
+
+        <div class="credentials-box">
+            <div><span class="credentials-label">Username:</span> <span th:text="${username}">johnDoe</span></div>
+            <div><span class="credentials-label">Password:</span> <span th:text="${password}">password</span></div>
+        </div>
+
+        <div class="security-alert">
+            SECURITY: Please change your password immediately after login
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:href="${loginUrl}" style="background-color: #27ae60; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                Login to Portal
+            </a>
+        </div>
+    </div>
+    <div class="footer">
+        <span class="welcome-note">Welcome to Compliance Return Diary!</span><br><br>
+        This is an automated notification from the Compliance System.
+    </div>
+</div>
+</body>
+</html>

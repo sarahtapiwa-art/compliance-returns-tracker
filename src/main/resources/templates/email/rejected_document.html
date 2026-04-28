@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Document Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333333;
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            padding: 25px;
+            border: 1px solid #d32f2f;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #d32f2f;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffcdd2;
+            display: flex;
+            align-items: center;
+        }
+        .header-icon {
+            margin-right: 10px;
+            font-size: 24px;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .content {
+            font-size: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #ffebee;
+            border-radius: 5px;
+            border-left: 4px solid #d32f2f;
+        }
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .action-section {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff9800;
+        }
+        .action-title {
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 8px;
+        }
+        .footer {
+            font-size: 13px;
+            color: #757575;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+        .urgency-note {
+            color: #d32f2f;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #d32f2f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <span class="header-icon">&#9888;</span>
+        Rejected Document Notification
+        <span class="status-badge">REJECTED</span>
+    </div>
+    <div class="content">
+        The regulatory report <strong class="highlight" th:text="${reportTitle}">Title</strong> has been <span class="highlight">rejected</span>.
+    </div>
+
+    <div class="action-section">
+        <div class="action-title">Required Action</div>
+        <span class="urgency-note">Please reach out to the HOD as soon as possible.</span>
+    </div>
+
+    <div class="footer">
+        This is an automated notification from the Compliance System.<br>
+        Please do not reply to this message.
+    </div>
+</div>
+</body>
+</html>

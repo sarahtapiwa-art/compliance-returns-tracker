@@ -1,0 +1,67 @@
+spring:
+  config:
+    import: optional:file:.env.properties
+
+  application:
+    name: ComplianceReturnsTracking
+
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+server:
+  port: 8080
+
+system:
+  admin:
+    username: ${SYSTEM_ADMIN_USERNAME}
+    password: ${SYSTEM_ADMIN_PASSWORD}
+    email: ${SYSTEM_ADMIN_EMAIL}
+    user:
+      default-password: ${SYSTEM_DEFAULT_PASSWORD}
+
+cors:
+  allowed-origins:
+    - http://localhost:3000
+
+app:
+  encryption:
+    secret-key: ${ENCRYPTION_SECRET_KEY}
+
+  storage:
+    dir: ./uploads/
+    archived: ./archived/
+
+email:
+  approval:
+    message: "'{0}' has been uploaded for approval."
+  verified:
+    message: "'{0}' is verified."
+  rejected:
+    message: "'{0}' has been rejected."
+
+token:
+  reset:
+    expiration: 1440
+
+superadmin:
+  role: ROLE_SUPER_SYSTEM_ADMIN

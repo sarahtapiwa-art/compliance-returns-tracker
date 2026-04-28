@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 25px;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .content {
+            font-size: 16px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .action-required {
+            background-color: #e3f2fd;
+            border: 1px solid #2196F3;
+            color: #1565C0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+            border-left: 4px solid #2196F3;
+        }
+        .action-title {
+            color: #0d47a1;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .action-title:before {
+            content: "!";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background-color: #2196F3;
+            color: white;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .footer {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: center;
+            border-top: 1px solid #bdc3c7;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+        .note {
+            font-style: italic;
+            color: #95a5a6;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .dynamic-message {
+            margin: 15px 0;
+            padding: 10px;
+            line-height: 1.8;
+            background-color: #ffffff;
+            border-radius: 4px;
+        }
+        .urgency-indicator {
+            display: inline-block;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .system-info {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px dashed #bdc3c7;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+    <title>Document Approval Request</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        Document Approval Request
+        <span class="urgency-indicator">ACTION NEEDED</span>
+    </div>
+
+    <div class="content">
+        <p>Hello,</p>
+
+        <div class="dynamic-message" th:utext="${formattedMessage}">
+            A new document requires your approval for compliance processing.
+        </div>
+
+        <div class="action-required">
+            <div class="action-title">Action Required</div>
+            Please review and approve this submission at your earliest convenience.
+        </div>
+
+        <p>The document is now available in the compliance system for your review.</p>
+
+        <div class="system-info">
+            <strong>Access Instructions:</strong> Log in to the Compliance Portal and navigate to the "Pending Approvals" section.
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Please log in to the Compliance System to take action.</p>
+        <p class="note">This is an automated notification. Please do not reply to this email.</p>
+    </div>
+</div>
+</body>
+</html>
