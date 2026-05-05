@@ -25,11 +25,16 @@ spring:
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
+
+spring.mail.from: ${MAIL_FROM}
 
 system:
   admin:
@@ -46,7 +51,6 @@ cors:
 app:
   encryption:
     secret-key: ${ENCRYPTION_SECRET_KEY}
-
   storage:
     dir: ./uploads/
     archived: ./archived/
