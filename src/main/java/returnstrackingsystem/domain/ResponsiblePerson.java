@@ -8,15 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import returnstrackingsystem.customvalidation.NbsEmail;
 
 
-/**
- * createdBy romeo
- * createdDate 10/2/2026
- * createdTime 07:50
- * projectName compliance-returns-tracker
- **/
+
+
 
 @Embeddable
 @Data
@@ -36,6 +31,6 @@ public class ResponsiblePerson {
     @Column(name = "responsible_email", nullable = false)
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
-    @NbsEmail
+    @Email
     private String email;
 }

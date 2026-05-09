@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import returnstrackingsystem.customvalidation.NbsEmail;
 
 @Data
 @Builder
@@ -24,12 +23,12 @@ public class DepartmentRequest {
 
     @Email(message = "Email should be valid")
     @Schema(description = "Email address of the head of department", example = "contact@nbs.co.zw")
-    @NbsEmail
+    @Email
     private String escalationEmail;
 
     @Email(message = "Email should be valid")
     @Schema(description = "Email address of the head of department", example = "john.doe@nbs.co.zw")
-    @NbsEmail
+    @Email
     private String headOfDepartmentEmail;
 
 }

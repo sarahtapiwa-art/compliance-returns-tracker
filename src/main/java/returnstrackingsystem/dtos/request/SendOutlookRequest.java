@@ -5,16 +5,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.lang.Nullable;
-import returnstrackingsystem.customvalidation.NbsEmail;
+import returnstrackingsystem.customvalidation.Email;
+
 
 import java.util.List;
 
-/**
- * createdBy romeo
- * createdDate 3/12/2025
- * createdTime 10:01
- * projectName compliance-returns-tracker
- **/
+
 
 @Data
 @Builder
@@ -25,7 +21,7 @@ import java.util.List;
 public class SendOutlookRequest {
 
     @JsonProperty("email")
-    @NbsEmail
+    @Email
     @NonNull
     private String email;
 
