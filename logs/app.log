@@ -26,7 +26,7 @@ org.springframework.boot.context.config.InvalidConfigDataPropertyException: Prop
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
-	at zw.co.nbs.returnstrackingsystem.ReturnsTrackingSystemApplication.main(ReturnsTrackingSystemApplication.java:16)
+	at returnstrackingsystem.ReturnsTrackingSystemApplication.main(ReturnsTrackingSystemApplication.java:16)
 2025-12-12 16:06:35.206 [main] INFO  z.c.n.r.ReturnsTrackingSystemApplication - Starting ReturnsTrackingSystemApplication using Java 17.0.15 with PID 11956 (C:\Users\romeo\Documents\nbs\compliance-returns-tracker\target\classes started by romeo in C:\Users\romeo\Documents\nbs\compliance-returns-tracker)
 2025-12-12 16:06:35.215 [main] INFO  z.c.n.r.ReturnsTrackingSystemApplication - The following 1 profile is active: "prod"
 2025-12-12 16:06:42.569 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["https-jsse-nio-18000"]

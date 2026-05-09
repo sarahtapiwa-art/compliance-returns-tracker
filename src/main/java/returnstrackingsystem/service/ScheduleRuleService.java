@@ -1,0 +1,18 @@
+package returnstrackingsystem.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+import returnstrackingsystem.dtos.request.ScheduleRuleRequest;
+import returnstrackingsystem.domain.ScheduleRule;
+import returnstrackingsystem.dtos.request.ScheduleRuleUpdateRequest;
+import returnstrackingsystem.dtos.response.BulkUploadResponse;
+
+
+public interface ScheduleRuleService {
+    ScheduleRule createScheduleRule(ScheduleRuleRequest scheduleRuleRequest);
+    ScheduleRule updateScheduleRule(Long id, ScheduleRuleUpdateRequest updateRequest);
+    Page<ScheduleRule> getAllScheduleRules(String departmentName, Pageable pageable);
+    ScheduleRule getScheduleRule(Long id);
+    BulkUploadResponse bulkScheduleRules(MultipartFile file);
+}

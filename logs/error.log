@@ -26,4 +26,4 @@ org.springframework.boot.context.config.InvalidConfigDataPropertyException: Prop
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
-	at zw.co.nbs.returnstrackingsystem.ReturnsTrackingSystemApplication.main(ReturnsTrackingSystemApplication.java:16)
+	at returnstrackingsystem.ReturnsTrackingSystemApplication.main(ReturnsTrackingSystemApplication.java:16)

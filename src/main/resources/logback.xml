@@ -60,7 +60,7 @@
     </root>
 
     <!-- Package-specific logging -->
-    <logger name="zw.co.nbs.returnstrackingsystem" level="INFO" />
+    <logger name="returnstrackingsystem" level="INFO" />
     <logger name="org.springframework" level="WARN" />
     <logger name="org.hibernate" level="WARN" />
 
