@@ -20,12 +20,6 @@ import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-/**
- * createdBy romeo
- * createdDate 21/8/2025
- * createdTime 09:31
- * projectName compliance-returns-tracker
- **/
 
 @Configuration
 @EnableMethodSecurity
@@ -42,8 +36,9 @@ public class SecurityConfig {
                 .cors(cors -> cors
                         .configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "api/auth/**",
+                      .requestMatchers(
+        "api/auth/**",
+        "/api/auth/**",
                                 "/assets/**",
                                 "api/v1/submissions/*/send-outlook",
                                 "api/v1/submissions/*/send-outlook/**"

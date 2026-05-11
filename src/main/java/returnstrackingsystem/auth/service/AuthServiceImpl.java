@@ -21,7 +21,6 @@ import returnstrackingsystem.domain.PasswordResetToken;
 import returnstrackingsystem.domain.User;
 import returnstrackingsystem.domain.enums.Role;
 import returnstrackingsystem.dtos.request.*;
-import returnstrackingsystem.dtos.request.*;
 import returnstrackingsystem.dtos.response.AuthResponse;
 import returnstrackingsystem.dtos.response.BulkUploadError;
 import returnstrackingsystem.dtos.response.BulkUploadResponse;
@@ -38,7 +37,6 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.time.format.DateTimeFormatter.ofPattern;
-
 
 @Slf4j
 @Service
@@ -74,12 +72,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(
-                        () -> new RecordNotFoundException(
-                                format("Department with id %d not found", departmentId)));
+                .orElseThrow(() -> new RecordNotFoundException(
+                        format("Department with id %d not found", departmentId)));
 
         Set<Role> requestedRoles = new HashSet<>(request.roles());
-
         Set<Role> assignableRoles = getAssignableRoles(loggedInUserAuth);
 
         if (!assignableRoles.containsAll(requestedRoles)) {
@@ -108,11 +104,15 @@ public class AuthServiceImpl implements AuthService {
                 defaultPassword,
                 userCreationUrl);
 
-        emailService.send(mailFrom,
-                user.getEmail(),
-                new ArrayList<>(),
-                "Welcome to the Compliance Returns Tracker System",
-                htmlBody);
+        try {
+            emailService.send(mailFrom,
+                    user.getEmail(),
+                    new ArrayList<>(),
+                    "Welcome to the Compliance Returns Tracker System",
+                    htmlBody);
+        } catch (Exception e) {
+            log.error("Failed to send registration email: {}", e.getMessage());
+        }
 
         return "User registered successfully";
     }
@@ -140,12 +140,6 @@ public class AuthServiceImpl implements AuthService {
                 .map(auth -> Role.valueOf(auth.getAuthority().replace("ROLE_", "")))
                 .collect(Collectors.toSet());
 
-        if (!currentUserAuth.getName().equals(currentUserAuth.getName())) {
-            if (currentRoles.contains(Role.SUPER_SYSTEM_ADMIN)) {
-            } else {
-                throw new RuntimeException("You are not authorized to reset this user's password");
-            }
-        }
         if (!passwordEncoder.matches(request.oldPassword(), user.getPassword())) {
             throw new BadRequestException("Old password does not match!");
         }
@@ -156,19 +150,18 @@ public class AuthServiceImpl implements AuthService {
         var updatedUser = userRepository.save(user);
         log.info("Password updated for user: {}", updatedUser.getUsername());
 
-        log.info("Sending password reset email to: {}", user.getEmail());
-
         String timestamp = LocalDateTime.now().format(ofPattern("MMMM d, yyyy hh:mm a"));
+        String htmlBody = emailService.buildPasswordResetNotificationEmail(user.getUsername(), timestamp);
 
-        String htmlBody = emailService.buildPasswordResetNotificationEmail(
-                user.getUsername(),
-                timestamp);
-
-        emailService.send(mailFrom,
-                user.getEmail(),
-                new ArrayList<>(),
-                "Password Updated - Compliance Return Diary",
-                htmlBody);
+        try {
+            emailService.send(mailFrom,
+                    user.getEmail(),
+                    new ArrayList<>(),
+                    "Password Updated - Compliance Return Diary",
+                    htmlBody);
+        } catch (Exception e) {
+            log.error("Failed to send password reset email: {}", e.getMessage());
+        }
     }
 
     @Override
@@ -177,21 +170,20 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new RuntimeException("User with this email not found"));
 
         String resetToken = passwordResetTokenService.generatePasswordResetToken(user);
-
         String resetLink = resetPasswordUrl + resetToken;
+        String htmlBody = emailService.buildForgotPasswordEmailNotification(user.getUsername(), resetLink);
 
-        String htmlBody = emailService.buildForgotPasswordEmailNotification(
-                user.getUsername(),
-                resetLink);
-
-        emailService.send(
-                mailFrom,
-                user.getEmail(),
-                new ArrayList<>(),
-                "Password Reset Request - Compliance Return Diary",
-                htmlBody);
-
-        log.info("Password reset token sent to: {}", user.getEmail());
+        try {
+            emailService.send(
+                    mailFrom,
+                    user.getEmail(),
+                    new ArrayList<>(),
+                    "Password Reset Request - Compliance Return Diary",
+                    htmlBody);
+            log.info("Password reset token sent to: {}", user.getEmail());
+        } catch (Exception e) {
+            log.error("Failed to send password reset email: {}", e.getMessage());
+        }
     }
 
     @Override
@@ -205,23 +197,22 @@ public class AuthServiceImpl implements AuthService {
         User user = resetToken.getUser();
         user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
-
         passwordResetTokenService.deleteToken(resetToken);
-
         log.info("Password reset successfully for user: {}", user.getUsername());
 
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM d, yyyy hh:mm a"));
+        String htmlBody = emailService.buildPasswordResetNotificationEmail(user.getUsername(), timestamp);
 
-        String htmlBody = emailService.buildPasswordResetNotificationEmail(
-                user.getUsername(),
-                timestamp);
-
-        emailService.send(
-                mailFrom,
-                user.getEmail(),
-                new ArrayList<>(),
-                "Password Updated - Compliance Return Diary",
-                htmlBody);
+        try {
+            emailService.send(
+                    mailFrom,
+                    user.getEmail(),
+                    new ArrayList<>(),
+                    "Password Updated - Compliance Return Diary",
+                    htmlBody);
+        } catch (Exception e) {
+            log.error("Failed to send password updated email: {}", e.getMessage());
+        }
     }
 
     @Override
@@ -244,21 +235,19 @@ public class AuthServiceImpl implements AuthService {
         int totalProcessed = 0;
         int successfulCount = 0;
 
-        try (Workbook workbook = WorkbookFactory
-                .create(file.getInputStream())) {
+        try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
 
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 org.apache.poi.ss.usermodel.Row row = sheet.getRow(i);
-                if (row == null || isEmptyRow(row))
-                    continue;
+                if (row == null || isEmptyRow(row)) continue;
 
                 totalProcessed++;
-                String email = getCellValue(row.getCell(0)); // Column A: Email
+                String email = getCellValue(row.getCell(0));
 
                 try {
                     RegisterRequest registrationRequest = mapRowToRegisterRequest(row);
-                    String departmentName = getCellValue(row.getCell(2)); // Column C: Department
+                    String departmentName = getCellValue(row.getCell(2));
                     Department department = departmentRepository.findByDepartmentNameIgnoreCase(departmentName)
                             .orElseThrow(() -> new RecordNotFoundException("Department not found: " + departmentName));
 
@@ -293,7 +282,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private RegisterRequest mapRowToRegisterRequest(org.apache.poi.ss.usermodel.Row row) {
-        String rolesStr = getCellValue(row.getCell(1)); // Column B: Role
+        String rolesStr = getCellValue(row.getCell(1));
         Set<Role> roles = new HashSet<>();
         if (org.apache.commons.lang3.StringUtils.isNotBlank(rolesStr)) {
             for (String role : rolesStr.split(",")) {
@@ -309,23 +298,18 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new RegisterRequest(
-                getCellValue(row.getCell(3)), // Column D: UserName
-                getCellValue(row.getCell(0)), // Column A: Email
+                getCellValue(row.getCell(3)),
+                getCellValue(row.getCell(0)),
                 roles);
     }
 
     private String getCellValue(org.apache.poi.ss.usermodel.Cell cell) {
-        if (cell == null)
-            return null;
+        if (cell == null) return null;
         switch (cell.getCellType()) {
-            case STRING:
-                return cell.getStringCellValue().trim();
-            case NUMERIC:
-                return String.valueOf((long) cell.getNumericCellValue());
-            case BOOLEAN:
-                return String.valueOf(cell.getBooleanCellValue());
-            default:
-                return null;
+            case STRING: return cell.getStringCellValue().trim();
+            case NUMERIC: return String.valueOf((long) cell.getNumericCellValue());
+            case BOOLEAN: return String.valueOf(cell.getBooleanCellValue());
+            default: return null;
         }
     }
 
