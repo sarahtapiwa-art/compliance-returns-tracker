@@ -34,6 +34,7 @@ import returnstrackingsystem.service.DocStoreService;
 import returnstrackingsystem.service.EmailService;
 import returnstrackingsystem.service.SubmissionService;
 import returnstrackingsystem.util.MailProperties;
+import returnstrackingsystem.dtos.response.CalendarEventResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -124,14 +125,15 @@ public class SubmissionServiceImpl implements SubmissionService {
         log.info("Saving new submission");
         Submission savedSubmission = submissionRepository.save(submission);
 
-        // Create TodoTask and Calendar event for the new submission
-        createTaskAndEventForSubmission(
-                savedSubmission,
-                savedSubmission
-                        .getReturnDefinition()
-                        .getResponsiblePerson()
-                        .getEmail());
-        log.info("Created TodoTask and Calendar event for new submission");
+        // Try to create Azure task/calendar event - non-blocking
+        try {
+            createTaskAndEventForSubmission(
+                    savedSubmission,
+                    savedSubmission.getReturnDefinition().getResponsiblePerson().getEmail());
+            log.info("Created TodoTask and Calendar event for new submission");
+        } catch (Exception e) {
+            log.warn("Failed to create Azure task/calendar event (non-blocking): {}", e.getMessage());
+        }
 
         return savedSubmission;
     }
@@ -751,4 +753,28 @@ public class SubmissionServiceImpl implements SubmissionService {
         }
     }
 
+
+    @Override
+    public List<CalendarEventResponse> getCalendarEvents(OffsetDateTime from, OffsetDateTime to, String departmentName) {
+        log.info("Getting calendar events from: {}, to: {}, department: {}", from, to, departmentName);
+        List<Submission> submissions = submissionRepository.findAll().stream()
+                .filter(s -> !s.isDeleted())
+                .filter(s -> departmentName == null || s.getReturnDefinition().getDepartment().getDepartmentName().equalsIgnoreCase(departmentName))
+                .filter(s -> from == null || !s.getDueAt().isBefore(from))
+                .filter(s -> to == null || !s.getDueAt().isAfter(to))
+                .toList();
+        return submissions.stream().map(s -> CalendarEventResponse.builder()
+                .id(s.getId())
+                .title(s.getReturnDefinition().getTitle())
+                .regulatoryBody(s.getReturnDefinition().getRegulatoryBody())
+                .department(s.getReturnDefinition().getDepartment().getDepartmentName())
+                .status(s.getStatus().name())
+                .frequency(s.getReturnDefinition().getFrequency().name())
+                .start(s.getDueAt())
+                .end(s.getDueAt().plusHours(1))
+                .periodStart(s.getPeriodStart())
+                .periodEnd(s.getPeriodEnd())
+                .build()).toList();
+    }
 }
+

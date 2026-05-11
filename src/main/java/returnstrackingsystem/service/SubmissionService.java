@@ -11,6 +11,8 @@ import returnstrackingsystem.domain.Submission;
 import returnstrackingsystem.util.MailProperties;
 
 import java.util.List;
+import java.time.OffsetDateTime;
+import returnstrackingsystem.dtos.response.CalendarEventResponse;
 
 public interface SubmissionService {
         Submission createSubmission(Long returnDefinitionId, SubmissionRequest submissionDTO);
@@ -33,6 +35,7 @@ public interface SubmissionService {
                         List<String> cc);
 
         void flagOverdueSubmissions();
+    List<CalendarEventResponse> getCalendarEvents(OffsetDateTime from, OffsetDateTime to, String departmentName);
 
         void sendToRegulatorViaOutlook(Long submissionId,
                         List<String> cc,
