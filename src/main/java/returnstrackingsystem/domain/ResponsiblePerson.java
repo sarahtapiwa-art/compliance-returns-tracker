@@ -1,17 +1,13 @@
 package returnstrackingsystem.domain;
 
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.Email;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
-
-
+import returnstrackingsystem.customvalidation.Email;
 
 @Embeddable
 @Data
@@ -29,7 +25,6 @@ public class ResponsiblePerson {
     private String surname;
 
     @Column(name = "responsible_email", nullable = false)
-    @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
     @Email
     private String email;
