@@ -323,6 +323,45 @@ public class AuthServiceImpl implements AuthService {
         return true;
     }
 
+    @Override
+    public returnstrackingsystem.dtos.response.UserResponse updateUser(Long userId, UpdateUserRequest request, Authentication loggedInUserAuth) {
+        log.info("Updating user with id {}", userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RecordNotFoundException("User with id " + userId + " not found"));
+
+        if (!user.getUsername().equals(request.username())) {
+            if (userRepository.findByUsername(request.username()).isPresent()) {
+                throw new BadRequestException("Username already taken, please try another");
+            }
+            user.setUsername(request.username());
+        }
+
+        if (!user.getEmail().equals(request.email())) {
+            if (userRepository.existsByEmail(request.email())) {
+                throw new BadRequestException("Email already exists, please try another");
+            }
+            user.setEmail(request.email());
+        }
+
+        if (request.departmentId() != null) {
+            Department department = departmentRepository.findById(request.departmentId())
+                    .orElseThrow(() -> new RecordNotFoundException("Department with id " + request.departmentId() + " not found"));
+            user.setDepartment(department);
+        }
+
+        if (request.roles() != null && !request.roles().isEmpty()) {
+            Set<Role> assignableRoles = getAssignableRoles(loggedInUserAuth);
+            if (!assignableRoles.containsAll(request.roles())) {
+                throw new BadRequestException("You are not allowed to assign one or more requested roles");
+            }
+            user.setRoles(request.roles());
+        }
+
+        User saved = userRepository.save(user);
+        log.info("User updated successfully: {}", saved.getUsername());
+        return new returnstrackingsystem.dtos.response.UserResponse(saved.getId(), saved.getUsername(), saved.getEmail(), saved.getDepartment(), saved.getRoles());
+    }
+
     private Set<Role> getAssignableRoles(Authentication currentUserAuth) {
         if (currentUserAuth == null) {
             return Set.of(Role.SUPER_SYSTEM_ADMIN);

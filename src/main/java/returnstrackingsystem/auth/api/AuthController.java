@@ -126,6 +126,17 @@ public class AuthController {
         );
     }
 
+    @Operation(summary = "Update a user", description = "Only SUPER_SYSTEM_ADMIN can update users",
+            security = {@SecurityRequirement(name = "bearerAuth")})
+    @PutMapping("/register/{id}")
+    @PreAuthorize("hasRole('SUPER_SYSTEM_ADMIN')")
+    public ResponseEntity<returnstrackingsystem.dtos.response.UserResponse> updateUser(
+            @PathVariable Long id,
+            @RequestBody @Valid returnstrackingsystem.dtos.request.UpdateUserRequest request,
+            Authentication loggedInUserAuth) {
+        return ResponseEntity.ok(authService.updateUser(id, request, loggedInUserAuth));
+    }
+
     @Operation(summary = "Bulk register new users",
             description = "Only SUPER_SYSTEM_ADMIN and ADMIN can bulk register new users via Excel",
             security = {@SecurityRequirement(name = "bearerAuth")})

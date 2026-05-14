@@ -26,4 +26,5 @@ public interface AuthService {
     Page<User> getUsers(Pageable pageable);
 
     BulkUploadResponse bulkRegister(MultipartFile file, Authentication loggedInUserAuth);
+    returnstrackingsystem.dtos.response.UserResponse updateUser(Long userId, UpdateUserRequest request, Authentication loggedInUserAuth);
 }
