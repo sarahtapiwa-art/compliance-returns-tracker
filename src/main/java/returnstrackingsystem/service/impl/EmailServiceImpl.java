@@ -128,7 +128,7 @@ public class EmailServiceImpl implements EmailService {
         Context context = new Context();
         context.setVariable("reportTitle", reportTitle);
         context.setVariable("periodLabel", periodLabel);
-        context.setVariable("logoBase64", getLogoAsBase64());
+        context.setVariable("logoBase64", "");
         return templateEngine.process("email/submission_notice", context);
     }
 
@@ -139,7 +139,7 @@ public class EmailServiceImpl implements EmailService {
             InputStreamSource attachment) {
         try {
             JavaMailSenderImpl dynamicMailSender = new JavaMailSenderImpl();
-            dynamicMailSender.setHost("smtp.office365.com");
+            dynamicMailSender.setHost("smtp.gmail.com");
             dynamicMailSender.setPort(587);
             dynamicMailSender.setUsername(mailProperties.getUsername());
             dynamicMailSender.setPassword(mailProperties.getPassword());
@@ -153,7 +153,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessage msg = dynamicMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
 
-            helper.setFrom(new InternetAddress(mailProperties.getUsername(), "National Building Society"));
+            helper.setFrom(new InternetAddress(mailProperties.getUsername(), "BANK123"));
             helper.setTo(to);
 
             if (cc != null && !cc.isEmpty()) {
@@ -170,39 +170,6 @@ public class EmailServiceImpl implements EmailService {
 
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException("Email send failed", e);
-        }
-    }
-
-    private String getLogoAsBase64() {
-        try {
-            InputStream inputStream = getClass().getClassLoader()
-                    .getResourceAsStream("static/assets/nbs-logo.png");
-
-            if (inputStream == null) {
-                throw new RuntimeException("Logo file not found: static/assets/nbs-logo.png");
-            }
-
-            byte[] imageBytes = inputStream.readAllBytes();
-
-            long fileSizeKB = imageBytes.length / 1024;
-            log.debug("Logo file size: {} KB", fileSizeKB);
-
-            if (fileSizeKB > 2000) {
-                log.warn("Logo file size ({}) is very large - Gmail may not display it", fileSizeKB);
-            }
-
-            String base64 = java.util.Base64.getEncoder().encodeToString(imageBytes);
-            base64 = base64.replace("\n", "").replace("\r", "").trim();
-
-            if (base64.isEmpty()) {
-                throw new RuntimeException("Generated base64 string is empty");
-            }
-
-            log.debug("Base64 length: {} characters", base64.length());
-            return base64;
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load logo: " + e.getMessage(), e);
         }
     }
 

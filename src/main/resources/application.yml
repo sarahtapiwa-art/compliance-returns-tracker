@@ -71,7 +71,7 @@ app:
   registration:
     allowed:
       email-domains:
-        - nbs.co.zw
+        - gmail.com
   default-department:
     name: ICT
     hod-email: ${SYSTEM_ADMIN_EMAIL}

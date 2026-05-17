@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
                         email = "ict-development@nbs.co.zw"
                 ),
                 license = @License(
-                        name = "National Building Society"
+                        name = "BANK123"
                 )
         ),
         externalDocs = @ExternalDocumentation(
